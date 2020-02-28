@@ -66,13 +66,13 @@ about_action = QAction("&О программе")
 help_menu.addAction(about_action)
 def show_about_dialog():
     text = "<center>" \
-           "<h1>Text Editor</h1>" \
+           "<h1>Текстовый редактор</h1>" \
            "&#8291;" \
            "<img src=icon.svg>" \
            "</center>" \
-           "<p>Version 31.4.159.265358<br/>" \
-           "Copyright &copy; Company Inc.</p>"
-    QMessageBox.about(window, "About Text Editor", text)
+           "<p>Версия 31.4.159.265358<br/>" \
+           "Все права защищены.</p>"
+    QMessageBox.about(window, "О редакторе", text)
 about_action.triggered.connect(show_about_dialog)
 
 window.show()
