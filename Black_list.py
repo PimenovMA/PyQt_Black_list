@@ -1,79 +1,67 @@
-from PyQt5.QtWidgets import *
-from PyQt5.QtGui import QKeySequence
+"""
+:authors: Pimenov M.A. (Пименов Михаил Александрович)
+:license: None License
 
-class MainWindow(QMainWindow):
-    def closeEvent(self, e):
-        if not text.document().isModified():
-            return
-        answer = QMessageBox.question(
-            window, None,
-            "You have unsaved changes. Save before closing?",
-            QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel
-        )
-        if answer & QMessageBox.Save:
-            save()
-        elif answer & QMessageBox.Cancel:
-            e.ignore()
+"""
+import sqlite3
+from PyQt5 import QtWidgets, QtCore
+import sys
 
-app = QApplication([])
-app.setApplicationName("Текстовый редактор")
-text = QPlainTextEdit()
-window = MainWindow()
-window.setCentralWidget(text)
+# БЛОК ПОСТРОЕНИЯ ГРАФИЧЕСКОГО ИНТЕРФЕЙСА
 
-file_path = None
+app = QtWidgets.QApplication(sys.argv)
+window = QtWidgets.QWidget()
+window.setWindowTitle('Черный список клиентов')
+# Фиксируем размер окна
+window.setFixedSize(900,700)
 
-menu = window.menuBar().addMenu("&Файл")
-open_action = QAction("&Открыть")
-def open_file():
-    global file_path
-    path = QFileDialog.getOpenFileName(window, "Сохранение")[0]
-    if path:
-        text.setPlainText(open(path).read())
-        file_path = path
-open_action.triggered.connect(open_file)
-open_action.setShortcut(QKeySequence.Open)
-menu.addAction(open_action)
+# Размещаем метку в позиции
+label1 = QtWidgets.QLabel('Фамилия:',window)
+label1.setGeometry(10,5,280,60)
 
-save_action = QAction("&Сохранить")
-def save():
-    if file_path is None:
-        save_as()
-    else:
-        with open(file_path, "w") as f:
-            f.write(text.toPlainText())
-        text.document().setModified(False)
-save_action.triggered.connect(save)
-save_action.setShortcut(QKeySequence.Save)
-menu.addAction(save_action)
+# Размещаем однострочное поле "Фамилия"
+textline1 = QtWidgets.QLineEdit(window)
+# устанвливаем размер поля
+textline1.resize(200,20)
+# размещаем поле в позиции
+textline1.move(10,45)
 
-save_as_action = QAction("Сохранить &как...")
-def save_as():
-    global file_path
-    path = QFileDialog.getSaveFileName(window, "Сохранить как")[0]
-    if path:
-        file_path = path
-        save()
-save_as_action.triggered.connect(save_as)
-menu.addAction(save_as_action)
+# Размещаем метку в позиции
+label2 = QtWidgets.QLabel('Имя:',window)
+label2.setGeometry(10,45,280,60)
 
-close = QAction("&Закрыть")
-close.triggered.connect(window.close)
-menu.addAction(close)
+# Размещаем однострочное поле "Имя"
+textline2 = QtWidgets.QLineEdit(window)
+textline2.resize(200,20)
+textline2.move(10,85)
 
-help_menu = window.menuBar().addMenu("&Помощь")
-about_action = QAction("&О программе")
-help_menu.addAction(about_action)
-def show_about_dialog():
-    text = "<center>" \
-           "<h1>Текстовый редактор</h1>" \
-           "&#8291;" \
-           "<img src=icon.svg>" \
-           "</center>" \
-           "<p>Версия 31.4.159.265358<br/>" \
-           "Все права защищены.</p>"
-    QMessageBox.about(window, "О редакторе", text)
-about_action.triggered.connect(show_about_dialog)
+# Размещаем метку в позиции
+label3 = QtWidgets.QLabel('Отчество:',window)
+label3.setGeometry(10,85,280,60)
+
+# Размещаем однострочное поле "Отчество"
+textline3 = QtWidgets.QLineEdit(window)
+textline3.resize(200,20)
+textline3.move(10,125)
+
+# Размещаем кнопку "Поиск"
+button1 =QtWidgets.QPushButton ('Поиск', window)
+# устанавливаем размер кнопки
+button1.resize(90,30)
+# ставим ее в позицию
+button1.move(10,650)
+
+# Размещаем кнопку "Записать"
+button2 =QtWidgets.QPushButton ('Записать', window)
+button2.resize(90,30)
+button2.move(110,650)
+
+# Размещаем кнопку "Редактировать"
+button2 =QtWidgets.QPushButton ('Редактировать', window)
+button2.resize(90,30)
+button2.move(210,650)
+
 
 window.show()
-app.exec_()
+
+sys.exit(app.exec_())
