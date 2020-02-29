@@ -1,79 +1,127 @@
-from PyQt5.QtWidgets import *
-from PyQt5.QtGui import QKeySequence
+"""
+:authors: Pimenov M.A. (Пименов Михаил Александрович)
+:license: None License
 
-class MainWindow(QMainWindow):
-    def closeEvent(self, e):
-        if not text.document().isModified():
-            return
-        answer = QMessageBox.question(
-            window, None,
-            "You have unsaved changes. Save before closing?",
-            QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel
-        )
-        if answer & QMessageBox.Save:
-            save()
-        elif answer & QMessageBox.Cancel:
-            e.ignore()
+"""
+import sqlite3
+from PyQt5 import QtWidgets, QtCore
+import sys
 
-app = QApplication([])
-app.setApplicationName("Текстовый редактор")
-text = QPlainTextEdit()
-window = MainWindow()
-window.setCentralWidget(text)
+# БЛОК ПОСТРОЕНИЯ ГРАФИЧЕСКОГО ИНТЕРФЕЙСА
 
-file_path = None
+app = QtWidgets.QApplication(sys.argv)
+window = QtWidgets.QWidget()
+window.setWindowTitle('Черный список клиентов')
+# Фиксируем размер окна
+window.setFixedSize(1000,700)
 
-menu = window.menuBar().addMenu("&Файл")
-open_action = QAction("&Открыть")
-def open_file():
-    global file_path
-    path = QFileDialog.getOpenFileName(window, "Сохранение")[0]
-    if path:
-        text.setPlainText(open(path).read())
-        file_path = path
-open_action.triggered.connect(open_file)
-open_action.setShortcut(QKeySequence.Open)
-menu.addAction(open_action)
+# Размещаем метку в позиции
+label1 = QtWidgets.QLabel('Ф.И.О.:',window)
+label1.setGeometry(10,5,100,20)
 
-save_action = QAction("&Сохранить")
-def save():
-    if file_path is None:
-        save_as()
-    else:
-        with open(file_path, "w") as f:
-            f.write(text.toPlainText())
-        text.document().setModified(False)
-save_action.triggered.connect(save)
-save_action.setShortcut(QKeySequence.Save)
-menu.addAction(save_action)
+# Размещаем однострочное поле "Ф.И.О."
+textline1 = QtWidgets.QLineEdit(window)
+# устанвливаем размер поля
+textline1.resize(250,20)
+# размещаем поле в позиции
+textline1.move(10,25)
 
-save_as_action = QAction("Сохранить &как...")
-def save_as():
-    global file_path
-    path = QFileDialog.getSaveFileName(window, "Сохранить как")[0]
-    if path:
-        file_path = path
-        save()
-save_as_action.triggered.connect(save_as)
-menu.addAction(save_as_action)
+# Размещаем метку в позиции
+label2 = QtWidgets.QLabel('Адрес:',window)
+label2.setGeometry(10,45,280,20)
 
-close = QAction("&Закрыть")
-close.triggered.connect(window.close)
-menu.addAction(close)
+# Размещаем однострочное поле "Адрес"
+textline2 = QtWidgets.QLineEdit(window)
+textline2.resize(250,20)
+textline2.move(10,65)
 
-help_menu = window.menuBar().addMenu("&Помощь")
-about_action = QAction("&О программе")
-help_menu.addAction(about_action)
-def show_about_dialog():
-    text = "<center>" \
-           "<h1>Текстовый редактор</h1>" \
-           "&#8291;" \
-           "<img src=icon.svg>" \
-           "</center>" \
-           "<p>Версия 31.4.159.265358<br/>" \
-           "Все права защищены.</p>"
-    QMessageBox.about(window, "О редакторе", text)
-about_action.triggered.connect(show_about_dialog)
+# Размещаем метку в позиции
+label3 = QtWidgets.QLabel('Телефон:',window)
+label3.setGeometry(10,85,280,20)
+
+# Размещаем однострочное поле "Телефон"
+textline3 = QtWidgets.QLineEdit(window)
+textline3.resize(250,20)
+textline3.move(10,105)
+
+# Размещаем метку в позиции
+label4 = QtWidgets.QLabel('Паспорт серия номер:',window)
+label4.setGeometry(10,125,280,20)
+
+# Размещаем однострочное поле "Паспорт серия"
+textline4 = QtWidgets.QLineEdit(window)
+textline4.resize(250,20)
+textline4.move(10,145)
+
+# Размещаем метку в позиции
+label5 = QtWidgets.QLabel('Дата выдачи:',window)
+label5.setGeometry(10,165,280,20)
+
+# Размещаем однострочное поле "Дата выдачи"
+dateedit1 = QtWidgets.QDateEdit(window)
+dateedit1.setCalendarPopup(True)
+dateedit1.resize(250,20)
+dateedit1.move(10,185)
+
+# Размещаем метку в позиции
+label6 = QtWidgets.QLabel('Код подразделения:',window)
+label6.setGeometry(10,205,280,20)
+
+# Размещаем однострочное поле "Код подразделения"
+textline6 = QtWidgets.QLineEdit(window)
+textline6.resize(250,20)
+textline6.move(10,225)
+
+# Размещаем метку в позиции
+label7 = QtWidgets.QLabel('Кем выдан:',window)
+label7.setGeometry(10,245,280,20)
+
+# Размещаем однострочное поле "Кем выдан"
+textline7 = QtWidgets.QLineEdit(window)
+textline7.resize(250,20)
+textline7.move(10,265)
+
+# Размещаем метку в позиции
+label8 = QtWidgets.QLabel('Претензия к клиенту:',window)
+label8.setGeometry(10,285,280,20)
+
+# Размещаем иногострочное поле "Косяки клиента"
+textedit1 = QtWidgets.QTextEdit(window)
+textedit1.setGeometry (10,305,250,330)
+
+# Размещаем метку в позиции
+label9 = QtWidgets.QLabel('Данные в БД:',window)
+label9.setGeometry(280,5,280,20)
+
+tabedit1 = QtWidgets.QTableWidget(window)
+tabedit1.setGeometry(280,25,700,610)
+# задаем количество столбцов
+tabedit1.setColumnCount(8)
+# задаем название столбцов
+tabedit1.setHorizontalHeaderLabels(["Ф.И.О.", "Адрес", "Телефон","№ паспорта","Дата выдачи","Код подразделения","Кем выдан","Претензии"])
+# задаем количество строк
+tabedit1.setRowCount(1)
+tabedit1.setRowCount(2)
+tabedit1.setRowCount(3)
+
+# Размещаем кнопку "Поиск"
+button1 =QtWidgets.QPushButton ('Поиск', window)
+# устанавливаем размер кнопки
+button1.resize(90,30)
+# ставим ее в позицию
+button1.move(10,650)
+
+# Размещаем кнопку "Записать"
+button2 =QtWidgets.QPushButton ('Записать', window)
+button2.resize(90,30)
+button2.move(110,650)
+
+# Размещаем кнопку "Редактировать"
+button2 =QtWidgets.QPushButton ('Редактировать', window)
+button2.resize(90,30)
+button2.move(210,650)
+
 
 window.show()
-app.exec_()
+
+sys.exit(app.exec_())
