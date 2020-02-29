@@ -1,7 +1,7 @@
 """
 :authors: Pimenov M.A. (Пименов Михаил Александрович)
 :license: None License
-
+Программа реализует функционал 'Черного списка' с использованием локальной базы данных
 """
 import sqlite3
 from PyQt5 import QtWidgets, QtCore
@@ -98,7 +98,14 @@ tabedit1.setGeometry(280,25,700,610)
 # задаем количество столбцов
 tabedit1.setColumnCount(8)
 # задаем название столбцов
-tabedit1.setHorizontalHeaderLabels(["Ф.И.О.", "Адрес", "Телефон","№ паспорта","Дата выдачи","Код подразделения","Кем выдан","Претензии"])
+tabedit1.setHorizontalHeaderLabels(["Ф.И.О.",
+                                    "Адрес",
+                                    "Телефон",
+                                    "№ паспорта",
+                                    "Дата выдачи",
+                                    "Код подразделения",
+                                    "Кем выдан",
+                                    "Претензии"])
 # задаем количество строк
 tabedit1.setRowCount(1)
 tabedit1.setRowCount(2)
