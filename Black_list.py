@@ -7,6 +7,12 @@ import sqlite3
 from PyQt5 import QtWidgets, QtCore
 import sys
 
+def button1_click():
+    textedit1.setText(textline1.text())
+
+def button2_click():
+    textedit1.setText(textline2.text())
+
 # БЛОК ПОСТРОЕНИЯ ГРАФИЧЕСКОГО ИНТЕРФЕЙСА
 
 app = QtWidgets.QApplication(sys.argv)
@@ -107,8 +113,6 @@ tabedit1.setHorizontalHeaderLabels(["Ф.И.О.",
                                     "Кем выдан",
                                     "Претензии"])
 # задаем количество строк
-tabedit1.setRowCount(1)
-tabedit1.setRowCount(2)
 tabedit1.setRowCount(3)
 
 # Размещаем кнопку "Поиск"
@@ -124,11 +128,13 @@ button2.resize(90,30)
 button2.move(110,650)
 
 # Размещаем кнопку "Редактировать"
-button2 =QtWidgets.QPushButton ('Редактировать', window)
-button2.resize(90,30)
-button2.move(210,650)
+button3 =QtWidgets.QPushButton ('Редактировать', window)
+button3.resize(90,30)
+button3.move(210,650)
 
+# КОНЕЦ БЛОКА ПОСТРОЕНИЯ ГРАФИЧЕСКОГО ИНТЕРФЕЙСА
 
+button1.clicked.connect(button1_click)
+button2.clicked.connect(button2_click)
 window.show()
-
 sys.exit(app.exec_())
