@@ -7,11 +7,20 @@ import sqlite3
 from PyQt5 import QtWidgets, QtCore
 import sys
 
+from PyQt5.QtWidgets import QTableWidgetItem
+
+
 def button1_click():
     textedit1.setText(textline1.text())
+    # запись данных в ячейку 0, 1
+    tabedit1.setItem(0, 1, QTableWidgetItem (textline1.text()))
+    # получение данных из ячейки 0, 1
+    textline3.setText(tabedit1.item(0, 1).text())
+
 
 def button2_click():
     textedit1.setText(textline2.text())
+    tabedit1.setItem(0, 0, QTableWidgetItem ('Проверка'))
 
 # БЛОК ПОСТРОЕНИЯ ГРАФИЧЕСКОГО ИНТЕРФЕЙСА
 
@@ -70,28 +79,30 @@ dateedit1.resize(250,20)
 dateedit1.move(10,185)
 
 # Размещаем метку в позиции
-label6 = QtWidgets.QLabel('Код подразделения:',window)
+label6 = QtWidgets.QLabel('Кем выдан:',window)
 label6.setGeometry(10,205,280,20)
 
-# Размещаем однострочное поле "Код подразделения"
+# Размещаем однострочное поле "Кем выдан"
 textline6 = QtWidgets.QLineEdit(window)
 textline6.resize(250,20)
 textline6.move(10,225)
 
+
 # Размещаем метку в позиции
-label7 = QtWidgets.QLabel('Кем выдан:',window)
+label7 = QtWidgets.QLabel('Код подразделения:',window)
 label7.setGeometry(10,245,280,20)
 
-# Размещаем однострочное поле "Кем выдан"
+# Размещаем однострочное поле "Код подразделения"
 textline7 = QtWidgets.QLineEdit(window)
 textline7.resize(250,20)
 textline7.move(10,265)
+
 
 # Размещаем метку в позиции
 label8 = QtWidgets.QLabel('Претензия к клиенту:',window)
 label8.setGeometry(10,285,280,20)
 
-# Размещаем иногострочное поле "Косяки клиента"
+# Размещаем иногострочное поле "Претензия к клиенту"
 textedit1 = QtWidgets.QTextEdit(window)
 textedit1.setGeometry (10,305,250,330)
 
@@ -99,6 +110,7 @@ textedit1.setGeometry (10,305,250,330)
 label9 = QtWidgets.QLabel('Данные в БД:',window)
 label9.setGeometry(280,5,280,20)
 
+#Строим Таблицу и настраиваем ее параметры
 tabedit1 = QtWidgets.QTableWidget(window)
 tabedit1.setGeometry(280,25,700,610)
 # задаем количество столбцов
@@ -109,11 +121,15 @@ tabedit1.setHorizontalHeaderLabels(["Ф.И.О.",
                                     "Телефон",
                                     "№ паспорта",
                                     "Дата выдачи",
-                                    "Код подразделения",
                                     "Кем выдан",
+                                    "Код подразделения",
                                     "Претензии"])
 # задаем количество строк
-tabedit1.setRowCount(3)
+tabedit1.setRowCount(5)
+tabedit1.setVerticalHeaderLabels(['1','2','3','4','5'])
+# разрешаем сортировку
+tabedit1.setSortingEnabled(True)
+
 
 # Размещаем кнопку "Поиск"
 button1 =QtWidgets.QPushButton ('Поиск', window)
