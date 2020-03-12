@@ -3,11 +3,28 @@
 :license: None License
 Программа реализует функционал 'Черного списка' с использованием локальной базы данных
 """
-import sqlite3
-from PyQt5 import QtWidgets, QtCore
+import peewee
+from datetime import date
+from PyQt5 import QtWidgets
 import sys
+from PyQt5.QtWidgets import QTableWidgetItem, QCalendarWidget
 
-from PyQt5.QtWidgets import QTableWidgetItem
+# БЛОК РАБОТЫ С БАЗОЙ ДАННЫХ
+
+database = peewee.SqliteDatabase ('blacklist.db')
+
+class Person (peewee.Model):
+    name = peewee.CharField(50)
+    adress = peewee.CharField(80)
+    telephone = peewee.CharField(15)
+    passport = peewee.CharField(13)
+    date_out = peewee.DateField()
+    out_passport = peewee.CharField()
+    id_passport = peewee.CharField()
+    bad_human = peewee.CharField(50)
+    date_add = peewee.DateField()
+    class Meta:
+        database = database
 
 
 def button1_click():
@@ -19,8 +36,20 @@ def button1_click():
 
 
 def button2_click():
-    textedit1.setText(textline2.text())
-    tabedit1.setItem(0, 0, QTableWidgetItem ('Проверка'))
+    database.create_tables([Person])
+    record_db = Person(name = textline1.text(),
+                       adress = textline2.text(),
+                       telephone = textline3.text(),
+                       passport = textline4.text(),
+                       date_out = dateedit1.dateTime().toString('dd-MM-yyyy'),
+                       out_passport = textline6.text(),
+                       id_passport = textline7.text(),
+                       bad_human = textedit1.toPlainText(),
+                       date_add = date.today())
+    record_db.save()
+
+
+
 
 # БЛОК ПОСТРОЕНИЯ ГРАФИЧЕСКОГО ИНТЕРФЕЙСА
 
