@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 """
 :authors: Pimenov M.A. (Пименов Михаил Александрович)
 :license: None License
@@ -29,13 +31,11 @@ class Person (peewee.Model):
 
 def button1_click():
     textedit1.setText(textline1.text())
-    # запись данных в ячейку 0, 1
-    tabedit1.setItem(0, 1, QTableWidgetItem (textline1.text()))
-    # получение данных из ячейки 0, 1
-    textline3.setText(tabedit1.item(0, 1).text())
+    tabedit1.setItem(0, 1, QTableWidgetItem (textline1.text()))  # запись данных в ячейку 0, 1
+    textline3.setText(tabedit1.item(0, 1).text())  # получение данных из ячейки 0, 1
 
 
-def button2_click():
+def button2_click(): # Запись введенных данных в БД
     database.create_tables([Person])
     record_db = Person(name = textline1.text(),
                        adress = textline2.text(),
@@ -47,6 +47,21 @@ def button2_click():
                        bad_human = textedit1.toPlainText(),
                        date_add = date.today())
     record_db.save()
+    tabedit1.setItem(0, 0, QTableWidgetItem (textline1.text()))
+    tabedit1.setItem(0, 1, QTableWidgetItem (textline2.text()))
+    tabedit1.setItem(0, 2, QTableWidgetItem (textline3.text()))
+    tabedit1.setItem(0, 3, QTableWidgetItem (textline4.text()))
+    tabedit1.setItem(0, 4, QTableWidgetItem (dateedit1.dateTime().toString('dd-MM-yyyy')))
+    tabedit1.setItem(0, 5, QTableWidgetItem (textline6.text()))
+    tabedit1.setItem(0, 6, QTableWidgetItem (textline7.text()))
+    tabedit1.setItem(0, 7, QTableWidgetItem (textedit1.toPlainText()))
+    textline1.clear()
+    textline2.clear()
+    textline3.clear()
+    textline4.clear()
+    textline6.clear()
+    textline7.clear()
+    textedit1.clear()
 
 
 
