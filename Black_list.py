@@ -3,17 +3,16 @@
 """
 :authors: Pimenov M.A. (Пименов Михаил Александрович)
 :license: None License
-Программа реализует функционал 'Черного списка' с использованием локальной базы данных
+Программа реализует функционал 'Черного списка' с использованием локальной базы данных SQLite
 """
-import peewee
+import sys, peewee
 from datetime import date
 from PyQt5 import QtWidgets
-import sys
 from PyQt5.QtWidgets import QTableWidgetItem, QCalendarWidget
 
 table_count = 0 # Счетчик строчек таблицы (глобальная переменная)
-# БЛОК РАБОТЫ С БАЗОЙ ДАННЫХ
 
+# БЛОК РАБОТЫ С БАЗОЙ ДАННЫХ
 database = peewee.SqliteDatabase ('blacklist.db')
 
 class Person (peewee.Model):
@@ -72,6 +71,12 @@ def button2_click(): # Запись введенных данных в БД
 def button3_click():
     textline1.setText(textline3.text())
 
+def next_focus(): textline2.setFocus()
+def next_focus1(): textline3.setFocus()
+def next_focus2(): textline4.setFocus()
+def next_focus3(): dateedit1.setFocus()
+def next_focus4(): textline7.setFocus()
+def next_focus5(): textedit1.setFocus()
 
 # БЛОК ПОСТРОЕНИЯ ГРАФИЧЕСКОГО ИНТЕРФЕЙСА
 
@@ -201,6 +206,16 @@ button3.resize(90,30)
 button3.move(210,650)
 
 # КОНЕЦ БЛОКА ПОСТРОЕНИЯ ГРАФИЧЕСКОГО ИНТЕРФЕЙСА
+
+# БЛОК УПРАВЛЕНИЕМ ФОКУСОМ ЭЛЕМЕНТОВ ИНТЕРФЕЙСА
+textline1.returnPressed.connect(next_focus)
+textline2.returnPressed.connect(next_focus1)
+textline3.returnPressed.connect(next_focus2)
+textline4.returnPressed.connect(next_focus3)
+textline6.returnPressed.connect(next_focus4)
+textline7.returnPressed.connect(next_focus5)
+# КОНЕЦ БЛОКА УПРАВЛЕНИЕМ ФОКУСОМ ЭЛЕМЕНТОВ ИНТЕРФЕЙСА
+
 
 button1.clicked.connect(button1_click)
 button2.clicked.connect(button2_click)
