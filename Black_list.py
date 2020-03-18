@@ -31,10 +31,14 @@ class Person (peewee.Model):
 
 
 def button1_click():
+    """Очистка Таблицы виджета, Текстовых полей, обнуление счетчика строк таблицы виджета"""
     global table_count
-    table_count = 0
-    tabedit1.setRowCount(1)
-    tabedit1.clearContents()
+    table_count = 0 # обнуляем счетчик строк таблыцы виджета
+    tabedit1.setRowCount(1) # сбрасываем строки к дефолту
+    tabedit1.clearContents() # очистка данных в ячейках таблицы
+    # Очищаем текстовые поля
+    textline1.clear(); textline2.clear(); textline3.clear(); textline4.clear(); textline6.clear(); textline7.clear()
+    textedit1.clear()
 
 
 def button2_click(): # Запись введенных данных в БД
@@ -65,7 +69,8 @@ def button2_click(): # Запись введенных данных в БД
     table_count += 1 # Увеличиваем счетчик строк в таблице
     tabedit1.insertRow(tabedit1.rowCount()) # Добавляем в таблицу пустую строчку
 
-
+def button3_click():
+    textline1.setText(textline3.text())
 
 
 # БЛОК ПОСТРОЕНИЯ ГРАФИЧЕСКОГО ИНТЕРФЕЙСА
@@ -103,6 +108,7 @@ label3.setGeometry(10,85,280,20)
 # Размещаем однострочное поле "Телефон"
 textline3 = QtWidgets.QLineEdit(window)
 textline3.resize(250,20)
+textline3.setInputMask("+7 999-999-99-99;_")
 textline3.move(10,105)
 
 # Размещаем метку в позиции
@@ -190,7 +196,7 @@ button2.resize(90,30)
 button2.move(110,650)
 
 # Размещаем кнопку "Редактировать"
-button3 =QtWidgets.QPushButton ('Редактировать', window)
+button3 =QtWidgets.QPushButton ('Тестовая', window)
 button3.resize(90,30)
 button3.move(210,650)
 
@@ -198,5 +204,6 @@ button3.move(210,650)
 
 button1.clicked.connect(button1_click)
 button2.clicked.connect(button2_click)
+button3.clicked.connect(button3_click)
 window.show()
 sys.exit(app.exec_())
