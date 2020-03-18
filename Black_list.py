@@ -11,6 +11,7 @@ from PyQt5 import QtWidgets
 import sys
 from PyQt5.QtWidgets import QTableWidgetItem, QCalendarWidget
 
+table_count = 0 # Счетчик строчек таблицы (глобальная переменная)
 # БЛОК РАБОТЫ С БАЗОЙ ДАННЫХ
 
 database = peewee.SqliteDatabase ('blacklist.db')
@@ -30,13 +31,14 @@ class Person (peewee.Model):
 
 
 def button1_click():
-    textedit1.setText(textline1.text())
-    tabedit1.setItem(0, 1, QTableWidgetItem (textline1.text()))  # запись данных в ячейку 0, 1
-    textline3.setText(tabedit1.item(0, 1).text())  # получение данных из ячейки 0, 1
+    global table_count
+    table_count = 0
+    tabedit1.setRowCount(1)
+    tabedit1.clearContents()
 
 
 def button2_click(): # Запись введенных данных в БД
-    database.create_tables([Person])
+    database.create_tables([Person]) # создаем БД и таблицу Person. Если есть, открываем на редактирование.
     record_db = Person(name = textline1.text(),
                        adress = textline2.text(),
                        telephone = textline3.text(),
@@ -47,21 +49,21 @@ def button2_click(): # Запись введенных данных в БД
                        bad_human = textedit1.toPlainText(),
                        date_add = date.today())
     record_db.save()
-    tabedit1.setItem(0, 0, QTableWidgetItem (textline1.text()))
-    tabedit1.setItem(0, 1, QTableWidgetItem (textline2.text()))
-    tabedit1.setItem(0, 2, QTableWidgetItem (textline3.text()))
-    tabedit1.setItem(0, 3, QTableWidgetItem (textline4.text()))
-    tabedit1.setItem(0, 4, QTableWidgetItem (dateedit1.dateTime().toString('dd-MM-yyyy')))
-    tabedit1.setItem(0, 5, QTableWidgetItem (textline6.text()))
-    tabedit1.setItem(0, 6, QTableWidgetItem (textline7.text()))
-    tabedit1.setItem(0, 7, QTableWidgetItem (textedit1.toPlainText()))
-    textline1.clear()
-    textline2.clear()
-    textline3.clear()
-    textline4.clear()
-    textline6.clear()
-    textline7.clear()
+    global table_count
+    # Заполняем таблицу введенными данными
+    tabedit1.setItem(table_count, 0, QTableWidgetItem (textline1.text()))
+    tabedit1.setItem(table_count, 1, QTableWidgetItem (textline2.text()))
+    tabedit1.setItem(table_count, 2, QTableWidgetItem (textline3.text()))
+    tabedit1.setItem(table_count, 3, QTableWidgetItem (textline4.text()))
+    tabedit1.setItem(table_count, 4, QTableWidgetItem (dateedit1.dateTime().toString('dd-MM-yyyy')))
+    tabedit1.setItem(table_count, 5, QTableWidgetItem (textline6.text()))
+    tabedit1.setItem(table_count, 6, QTableWidgetItem (textline7.text()))
+    tabedit1.setItem(table_count, 7, QTableWidgetItem (textedit1.toPlainText()))
+    # Очищаем текстовые поля
+    textline1.clear(); textline2.clear(); textline3.clear(); textline4.clear(); textline6.clear(); textline7.clear()
     textedit1.clear()
+    table_count += 1 # Увеличиваем счетчик строк в таблице
+    tabedit1.insertRow(tabedit1.rowCount()) # Добавляем в таблицу пустую строчку
 
 
 
@@ -169,14 +171,14 @@ tabedit1.setHorizontalHeaderLabels(["Ф.И.О.",
                                     "Код подразделения",
                                     "Претензии"])
 # задаем количество строк
-tabedit1.setRowCount(5)
+tabedit1.setRowCount(1)
 tabedit1.setVerticalHeaderLabels(['1','2','3','4','5'])
 # разрешаем сортировку
 tabedit1.setSortingEnabled(True)
 
 
 # Размещаем кнопку "Поиск"
-button1 =QtWidgets.QPushButton ('Поиск', window)
+button1 =QtWidgets.QPushButton ('Очистить', window)
 # устанавливаем размер кнопки
 button1.resize(90,30)
 # ставим ее в позицию
