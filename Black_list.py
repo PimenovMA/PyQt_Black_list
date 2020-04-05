@@ -8,9 +8,9 @@
 import sys, peewee
 from datetime import date
 from PyQt5 import QtWidgets
-from PyQt5.QtWidgets import QTableWidgetItem, QCalendarWidget
+from PyQt5.QtWidgets import QTableWidgetItem
 
-table_count = 0 # Счетчик строчек таблицы (глобальная переменная)
+row_count = 0 # Счетчик строчек таблицы (глобальная переменная)
 
 # БЛОК РАБОТЫ С БАЗОЙ ДАННЫХ
 database = peewee.SqliteDatabase ('blacklist.db')
@@ -31,8 +31,8 @@ class Person (peewee.Model):
 
 def button1_click():
     """Очистка Таблицы виджета, Текстовых полей, обнуление счетчика строк таблицы виджета"""
-    global table_count
-    table_count = 0 # обнуляем счетчик строк таблыцы виджета
+    global row_count
+    row_count = 0 # обнуляем счетчик строк таблыцы виджета
     tabedit1.setRowCount(1) # сбрасываем строки к дефолту
     tabedit1.clearContents() # очистка данных в ячейках таблицы
     # Очищаем текстовые поля
@@ -52,20 +52,20 @@ def button2_click(): # Запись введенных данных в БД
                        bad_human = textedit1.toPlainText(),
                        date_add = date.today())
     record_db.save()
-    global table_count
+    global row_count
     # Заполняем таблицу введенными данными
-    tabedit1.setItem(table_count, 0, QTableWidgetItem (textline1.text()))
-    tabedit1.setItem(table_count, 1, QTableWidgetItem (textline2.text()))
-    tabedit1.setItem(table_count, 2, QTableWidgetItem (textline3.text()))
-    tabedit1.setItem(table_count, 3, QTableWidgetItem (textline4.text()))
-    tabedit1.setItem(table_count, 4, QTableWidgetItem (dateedit1.dateTime().toString('dd-MM-yyyy')))
-    tabedit1.setItem(table_count, 5, QTableWidgetItem (textline6.text()))
-    tabedit1.setItem(table_count, 6, QTableWidgetItem (textline7.text()))
-    tabedit1.setItem(table_count, 7, QTableWidgetItem (textedit1.toPlainText()))
+    tabedit1.setItem(row_count, 0, QTableWidgetItem (textline1.text()))
+    tabedit1.setItem(row_count, 1, QTableWidgetItem (textline2.text()))
+    tabedit1.setItem(row_count, 2, QTableWidgetItem (textline3.text()))
+    tabedit1.setItem(row_count, 3, QTableWidgetItem (textline4.text()))
+    tabedit1.setItem(row_count, 4, QTableWidgetItem (dateedit1.dateTime().toString('dd-MM-yyyy')))
+    tabedit1.setItem(row_count, 5, QTableWidgetItem (textline6.text()))
+    tabedit1.setItem(row_count, 6, QTableWidgetItem (textline7.text()))
+    tabedit1.setItem(row_count, 7, QTableWidgetItem (textedit1.toPlainText()))
     # Очищаем текстовые поля
     textline1.clear(); textline2.clear(); textline3.clear(); textline4.clear(); textline6.clear(); textline7.clear()
     textedit1.clear()
-    table_count += 1 # Увеличиваем счетчик строк в таблице
+    row_count += 1 # Увеличиваем счетчик строк в таблице
     tabedit1.insertRow(tabedit1.rowCount()) # Добавляем в таблицу пустую строчку
 
 def button3_click():
@@ -77,6 +77,31 @@ def next_focus2(): textline4.setFocus()
 def next_focus3(): dateedit1.setFocus()
 def next_focus4(): textline7.setFocus()
 def next_focus5(): textedit1.setFocus()
+
+def button_find():
+    # Поиск в Базе Данных
+    pass
+
+
+def button_view():
+    # Просмотр ВСЕЙ информации введенной в БД
+    global row_count
+    row_count = 0
+    quere = Person.select()
+    for data in quere: # Заполняем таблицу полученными данными
+        tabedit1.setItem (row_count, 0, QTableWidgetItem (data.name))
+        tabedit1.setItem (row_count, 1, QTableWidgetItem (data.adress))
+        tabedit1.setItem (row_count, 2, QTableWidgetItem (data.telephone))
+        tabedit1.setItem (row_count, 3, QTableWidgetItem (data.passport))
+        # textline1.setText (data.date_out.dateTime().toString('dd-MM-yyyy'))
+        # tabedit1.setItem (row_count, 4, QTableWidgetItem (data.date_out))
+        tabedit1.setItem (row_count, 5, QTableWidgetItem (data.out_passport))
+        tabedit1.setItem (row_count, 6, QTableWidgetItem (data.id_passport))
+        tabedit1.setItem (row_count, 7, QTableWidgetItem (data.bad_human))
+        row_count += 1 # Увеличиваем счетчик строк в таблице
+        tabedit1.insertRow(tabedit1.rowCount()) # Добавляем в таблицу пустую строчку
+
+
 
 # БЛОК ПОСТРОЕНИЯ ГРАФИЧЕСКОГО ИНТЕРФЕЙСА
 
@@ -205,6 +230,16 @@ button3 =QtWidgets.QPushButton ('Тестовая', window)
 button3.resize(90,30)
 button3.move(210,650)
 
+# Размещаем кнопку "Поиск"
+button_find1 = QtWidgets.QPushButton ('Поиск в БД', window)
+button_find1.resize(90,30)
+button_find1.move(310,650)
+
+# Размещаем кнопку "Посмотреть БД"
+button_view1 = QtWidgets.QPushButton ('Просмотр БД', window)
+button_view1.resize(90,30)
+button_view1.move(410,650)
+
 # КОНЕЦ БЛОКА ПОСТРОЕНИЯ ГРАФИЧЕСКОГО ИНТЕРФЕЙСА
 
 # БЛОК УПРАВЛЕНИЕМ ФОКУСОМ ЭЛЕМЕНТОВ ИНТЕРФЕЙСА
@@ -216,9 +251,13 @@ textline6.returnPressed.connect(next_focus4)
 textline7.returnPressed.connect(next_focus5)
 # КОНЕЦ БЛОКА УПРАВЛЕНИЕМ ФОКУСОМ ЭЛЕМЕНТОВ ИНТЕРФЕЙСА
 
-
+# БЛОК УПРАВЛЕНИЯ КНОПКАМИ
 button1.clicked.connect(button1_click)
 button2.clicked.connect(button2_click)
 button3.clicked.connect(button3_click)
+button_find1.clicked.connect(button_find)
+button_view1.clicked.connect(button_view)
+# КОНЕЦ БЛОКА УПРАВЛЕНИЯ КНОПКАМИ
+
 window.show()
 sys.exit(app.exec_())
