@@ -93,6 +93,7 @@ def button_view():
         tabedit1.setItem (row_count, 1, QTableWidgetItem (data.adress))
         tabedit1.setItem (row_count, 2, QTableWidgetItem (data.telephone))
         tabedit1.setItem (row_count, 3, QTableWidgetItem (data.passport))
+        #TODO И как эту хрень замутить? Как изьять запиь даты из БД?
         # textline1.setText (data.date_out.dateTime().toString('dd-MM-yyyy'))
         # tabedit1.setItem (row_count, 4, QTableWidgetItem (data.date_out))
         tabedit1.setItem (row_count, 5, QTableWidgetItem (data.out_passport))
