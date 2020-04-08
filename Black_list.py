@@ -65,7 +65,7 @@ def button2_click(): # Запись введенных данных в БД
     # Очищаем текстовые поля
     textline1.clear(); textline2.clear(); textline3.clear(); textline4.clear(); textline6.clear(); textline7.clear()
     textedit1.clear()
-    row_count += 1 # Увеличиваем счетчик строк в таблице
+    row_count += 1
     tabedit1.insertRow(tabedit1.rowCount()) # Добавляем в таблицу пустую строчку
 
 def button3_click():
@@ -80,7 +80,23 @@ def next_focus5(): textedit1.setFocus()
 
 def button_find():
     # Поиск в Базе Данных
-    pass
+    global row_count
+    row_count = 0
+    quere = Person.select().where((Person.name.contains('%'+textline1.text()+'%')))
+    for data in quere: # Заполняем таблицу полученными данными
+        tabedit1.setItem (row_count, 0, QTableWidgetItem (data.name))
+        tabedit1.setItem (row_count, 1, QTableWidgetItem (data.adress))
+        tabedit1.setItem (row_count, 2, QTableWidgetItem (data.telephone))
+        tabedit1.setItem (row_count, 3, QTableWidgetItem (data.passport))
+        #TODO И как эту хрень замутить? Как изьять запиь даты из БД?
+        # textline1.setText (data.date_out.dateTime().toString('dd-MM-yyyy'))
+        # tabedit1.setItem (row_count, 4, QTableWidgetItem (data.date_out))
+        tabedit1.setItem (row_count, 5, QTableWidgetItem (data.out_passport))
+        tabedit1.setItem (row_count, 6, QTableWidgetItem (data.id_passport))
+        tabedit1.setItem (row_count, 7, QTableWidgetItem (data.bad_human))
+        row_count += 1
+        tabedit1.insertRow(tabedit1.rowCount()) # Добавляем в таблицу пустую строчку
+        textline1.clear()
 
 
 def button_view():
@@ -99,7 +115,7 @@ def button_view():
         tabedit1.setItem (row_count, 5, QTableWidgetItem (data.out_passport))
         tabedit1.setItem (row_count, 6, QTableWidgetItem (data.id_passport))
         tabedit1.setItem (row_count, 7, QTableWidgetItem (data.bad_human))
-        row_count += 1 # Увеличиваем счетчик строк в таблице
+        row_count += 1
         tabedit1.insertRow(tabedit1.rowCount()) # Добавляем в таблицу пустую строчку
 
 
@@ -113,7 +129,7 @@ window.setWindowTitle('Черный список клиентов')
 window.setFixedSize(1000,700)
 
 # Размещаем метку в позиции
-label1 = QtWidgets.QLabel('Ф.И.О.:',window)
+label1 = QtWidgets.QLabel('Ф.И.О.:', window)
 label1.setGeometry(10,5,100,20)
 
 # Размещаем однострочное поле "Ф.И.О."
