@@ -102,7 +102,7 @@ def button_find():
 def button_view():
     # Просмотр ВСЕЙ информации введенной в БД
     global row_count
-    row_count = 0
+    row_count = 0 # счетчик строк в таблице
     quere = Person.select()
     for data in quere: # Заполняем таблицу полученными данными
         tabedit1.setItem (row_count, 0, QTableWidgetItem (data.name))
@@ -111,7 +111,8 @@ def button_view():
         tabedit1.setItem (row_count, 3, QTableWidgetItem (data.passport))
         #TODO И как эту хрень замутить? Как изьять запиь даты из БД?
         # textline1.setText (data.date_out.dateTime().toString('dd-MM-yyyy'))
-        # tabedit1.setItem (row_count, 4, QTableWidgetItem (data.date_out))
+        #date_string = data.date_out.toString()
+        #tabedit1.setItem (row_count, 4, QTableWidgetItem (date_string))
         tabedit1.setItem (row_count, 5, QTableWidgetItem (data.out_passport))
         tabedit1.setItem (row_count, 6, QTableWidgetItem (data.id_passport))
         tabedit1.setItem (row_count, 7, QTableWidgetItem (data.bad_human))
@@ -165,6 +166,7 @@ label4.setGeometry(10,125,280,20)
 # Размещаем однострочное поле "Паспорт серия"
 textline4 = QtWidgets.QLineEdit(window)
 textline4.resize(250,20)
+textline4.setInputMask("99 99 999999; ")
 textline4.move(10,145)
 
 # Размещаем метку в позиции
@@ -194,6 +196,7 @@ label7.setGeometry(10,245,280,20)
 # Размещаем однострочное поле "Код подразделения"
 textline7 = QtWidgets.QLineEdit(window)
 textline7.resize(250,20)
+textline7.setInputMask("999-999; ")
 textline7.move(10,265)
 
 
