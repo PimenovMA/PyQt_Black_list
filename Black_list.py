@@ -62,6 +62,7 @@ def button2_click(): # Запись введенных данных в БД
     tabedit1.setItem(row_count, 5, QTableWidgetItem (textline6.text().upper()))
     tabedit1.setItem(row_count, 6, QTableWidgetItem (textline7.text()))
     tabedit1.setItem(row_count, 7, QTableWidgetItem (textedit1.toPlainText()))
+    tabedit1.resizeColumnToContents(0) # автоподбор ширины столбца Ф.И.О.
     # Очищаем текстовые поля
     textline1.clear(); textline2.clear(); textline3.clear(); textline4.clear(); textline6.clear(); textline7.clear()
     textedit1.clear()
@@ -89,15 +90,14 @@ def button_find():
         tabedit1.setItem (row_count, 1, QTableWidgetItem (data.adress))
         tabedit1.setItem (row_count, 2, QTableWidgetItem (data.telephone))
         tabedit1.setItem (row_count, 3, QTableWidgetItem (data.passport))
-        #TODO И как эту хрень замутить? Как изьять запиь даты из БД?
-        # textline1.setText (data.date_out.dateTime().toString('dd-MM-yyyy'))
-        # tabedit1.setItem (row_count, 4, QTableWidgetItem (data.date_out))
+        tabedit1.setItem (row_count, 4, QTableWidgetItem (data.date_out))
         tabedit1.setItem (row_count, 5, QTableWidgetItem (data.out_passport))
         tabedit1.setItem (row_count, 6, QTableWidgetItem (data.id_passport))
         tabedit1.setItem (row_count, 7, QTableWidgetItem (data.bad_human))
         row_count += 1
         tabedit1.insertRow(tabedit1.rowCount()) # Добавляем в таблицу пустую строчку
         textline1.clear()
+    tabedit1.resizeColumnToContents(0)
 
 
 def button_view():
@@ -110,15 +110,13 @@ def button_view():
         tabedit1.setItem (row_count, 1, QTableWidgetItem (data.adress))
         tabedit1.setItem (row_count, 2, QTableWidgetItem (data.telephone))
         tabedit1.setItem (row_count, 3, QTableWidgetItem (data.passport))
-        #TODO И как эту хрень замутить? Как изьять запиь даты из БД?
-        # textline1.setText (data.date_out.dateTime().toString('dd-MM-yyyy'))
-        #date_string = data.date_out.toString()
-        #tabedit1.setItem (row_count, 4, QTableWidgetItem (date_string))
+        tabedit1.setItem (row_count, 4, QTableWidgetItem (data.date_out))
         tabedit1.setItem (row_count, 5, QTableWidgetItem (data.out_passport))
         tabedit1.setItem (row_count, 6, QTableWidgetItem (data.id_passport))
         tabedit1.setItem (row_count, 7, QTableWidgetItem (data.bad_human))
         row_count += 1
         tabedit1.insertRow(tabedit1.rowCount()) # Добавляем в таблицу пустую строчку
+    tabedit1.resizeColumnToContents(0)
 
 
 
