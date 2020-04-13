@@ -16,14 +16,14 @@ row_count = 0 # Счетчик строчек таблицы (глобальна
 database = peewee.SqliteDatabase ('blacklist.db')
 
 class Person (peewee.Model):
-    name = peewee.CharField(50)
-    adress = peewee.CharField(80)
-    telephone = peewee.CharField(15)
-    passport = peewee.CharField(13)
-    date_out = peewee.DateField()
-    out_passport = peewee.CharField()
-    id_passport = peewee.CharField()
-    bad_human = peewee.CharField(50)
+    name = peewee.CharField(50) # ФИО клиента  textline1
+    adress = peewee.CharField(80) # адрес клиента textline2
+    telephone = peewee.CharField(15) # телефон клиента textline3
+    passport = peewee.CharField(13) # номер и серия паспорта textline4
+    date_out = peewee.DateField() # дата выдачи dateedit1
+    out_passport = peewee.CharField() # кем выдан textline6
+    id_passport = peewee.CharField() # код подразделения textline7
+    bad_human = peewee.CharField(50) # косяки клиента textedit1
     date_add = peewee.DateField()
     class Meta:
         database = database
@@ -42,24 +42,24 @@ def button1_click():
 
 def button2_click(): # Запись введенных данных в БД
     database.create_tables([Person]) # создаем БД и таблицу Person. Если есть, открываем на редактирование.
-    record_db = Person(name = textline1.text(),
-                       adress = textline2.text(),
-                       telephone = textline3.text(),
-                       passport = textline4.text(),
+    record_db = Person(name = textline1.text().upper(),
+                       adress = textline2.text().upper(),
+                       telephone = textline3.text().upper(),
+                       passport = textline4.text().upper(),
                        date_out = dateedit1.dateTime().toString('dd-MM-yyyy'),
-                       out_passport = textline6.text(),
-                       id_passport = textline7.text(),
+                       out_passport = textline6.text().upper(),
+                       id_passport = textline7.text().upper(),
                        bad_human = textedit1.toPlainText(),
                        date_add = date.today())
     record_db.save()
     global row_count
     # Заполняем таблицу введенными данными
-    tabedit1.setItem(row_count, 0, QTableWidgetItem (textline1.text()))
-    tabedit1.setItem(row_count, 1, QTableWidgetItem (textline2.text()))
-    tabedit1.setItem(row_count, 2, QTableWidgetItem (textline3.text()))
+    tabedit1.setItem(row_count, 0, QTableWidgetItem (textline1.text().upper()))
+    tabedit1.setItem(row_count, 1, QTableWidgetItem (textline2.text().upper()))
+    tabedit1.setItem(row_count, 2, QTableWidgetItem (textline3.text().upper()))
     tabedit1.setItem(row_count, 3, QTableWidgetItem (textline4.text()))
     tabedit1.setItem(row_count, 4, QTableWidgetItem (dateedit1.dateTime().toString('dd-MM-yyyy')))
-    tabedit1.setItem(row_count, 5, QTableWidgetItem (textline6.text()))
+    tabedit1.setItem(row_count, 5, QTableWidgetItem (textline6.text().upper()))
     tabedit1.setItem(row_count, 6, QTableWidgetItem (textline7.text()))
     tabedit1.setItem(row_count, 7, QTableWidgetItem (textedit1.toPlainText()))
     # Очищаем текстовые поля
@@ -69,7 +69,7 @@ def button2_click(): # Запись введенных данных в БД
     tabedit1.insertRow(tabedit1.rowCount()) # Добавляем в таблицу пустую строчку
 
 def button3_click():
-    textline1.setText(textline3.text())
+    textline1.setText(textline3.text().upper())
 
 def next_focus(): textline2.setFocus()
 def next_focus1(): textline3.setFocus()
@@ -80,9 +80,10 @@ def next_focus5(): textedit1.setFocus()
 
 def button_find():
     # Поиск в Базе Данных
+    tabedit1.clearContents()
     global row_count
     row_count = 0
-    quere = Person.select().where((Person.name.contains('%'+textline1.text()+'%')))
+    quere = Person.select().where((Person.name.contains('%'+textline1.text().upper()+'%')))
     for data in quere: # Заполняем таблицу полученными данными
         tabedit1.setItem (row_count, 0, QTableWidgetItem (data.name))
         tabedit1.setItem (row_count, 1, QTableWidgetItem (data.adress))
