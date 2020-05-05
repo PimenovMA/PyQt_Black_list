@@ -16,14 +16,14 @@ row_count = 0 # Счетчик строчек таблицы (глобальна
 database = peewee.SqliteDatabase ('blacklist.db')
 
 class Person (peewee.Model):
-    name = peewee.CharField(50)
-    adress = peewee.CharField(80)
-    telephone = peewee.CharField(15)
-    passport = peewee.CharField(13)
-    date_out = peewee.DateField()
-    out_passport = peewee.CharField()
-    id_passport = peewee.CharField()
-    bad_human = peewee.CharField(50)
+    name = peewee.CharField(50) # ФИО клиента  textline1
+    adress = peewee.CharField(80) # адрес клиента textline2
+    telephone = peewee.CharField(15) # телефон клиента textline3
+    passport = peewee.CharField(13) # номер и серия паспорта textline4
+    date_out = peewee.DateField() # дата выдачи dateedit1
+    out_passport = peewee.CharField() # кем выдан textline6
+    id_passport = peewee.CharField() # код подразделения textline7
+    bad_human = peewee.CharField(50) # косяки клиента textedit1
     date_add = peewee.DateField()
     class Meta:
         database = database
@@ -42,26 +42,27 @@ def button1_click():
 
 def button2_click(): # Запись введенных данных в БД
     database.create_tables([Person]) # создаем БД и таблицу Person. Если есть, открываем на редактирование.
-    record_db = Person(name = textline1.text(),
-                       adress = textline2.text(),
-                       telephone = textline3.text(),
-                       passport = textline4.text(),
+    record_db = Person(name = textline1.text().upper(),
+                       adress = textline2.text().upper(),
+                       telephone = textline3.text().upper(),
+                       passport = textline4.text().upper(),
                        date_out = dateedit1.dateTime().toString('dd-MM-yyyy'),
-                       out_passport = textline6.text(),
-                       id_passport = textline7.text(),
+                       out_passport = textline6.text().upper(),
+                       id_passport = textline7.text().upper(),
                        bad_human = textedit1.toPlainText(),
                        date_add = date.today())
     record_db.save()
     global row_count
     # Заполняем таблицу введенными данными
-    tabedit1.setItem(row_count, 0, QTableWidgetItem (textline1.text()))
-    tabedit1.setItem(row_count, 1, QTableWidgetItem (textline2.text()))
-    tabedit1.setItem(row_count, 2, QTableWidgetItem (textline3.text()))
+    tabedit1.setItem(row_count, 0, QTableWidgetItem (textline1.text().upper()))
+    tabedit1.setItem(row_count, 1, QTableWidgetItem (textline2.text().upper()))
+    tabedit1.setItem(row_count, 2, QTableWidgetItem (textline3.text().upper()))
     tabedit1.setItem(row_count, 3, QTableWidgetItem (textline4.text()))
     tabedit1.setItem(row_count, 4, QTableWidgetItem (dateedit1.dateTime().toString('dd-MM-yyyy')))
-    tabedit1.setItem(row_count, 5, QTableWidgetItem (textline6.text()))
+    tabedit1.setItem(row_count, 5, QTableWidgetItem (textline6.text().upper()))
     tabedit1.setItem(row_count, 6, QTableWidgetItem (textline7.text()))
     tabedit1.setItem(row_count, 7, QTableWidgetItem (textedit1.toPlainText()))
+    tabedit1.resizeColumnToContents(0) # автоподбор ширины столбца Ф.И.О.
     # Очищаем текстовые поля
     textline1.clear(); textline2.clear(); textline3.clear(); textline4.clear(); textline6.clear(); textline7.clear()
     textedit1.clear()
@@ -69,7 +70,7 @@ def button2_click(): # Запись введенных данных в БД
     tabedit1.insertRow(tabedit1.rowCount()) # Добавляем в таблицу пустую строчку
 
 def button3_click():
-    textline1.setText(textline3.text())
+    textline1.setText(textline3.text().upper())
 
 def next_focus(): textline2.setFocus()
 def next_focus1(): textline3.setFocus()
@@ -80,43 +81,42 @@ def next_focus5(): textedit1.setFocus()
 
 def button_find():
     # Поиск в Базе Данных
+    tabedit1.clearContents()
     global row_count
     row_count = 0
-    quere = Person.select().where((Person.name.contains('%'+textline1.text()+'%')))
+    quere = Person.select().where((Person.name.contains('%'+textline1.text().upper()+'%')))
     for data in quere: # Заполняем таблицу полученными данными
         tabedit1.setItem (row_count, 0, QTableWidgetItem (data.name))
         tabedit1.setItem (row_count, 1, QTableWidgetItem (data.adress))
         tabedit1.setItem (row_count, 2, QTableWidgetItem (data.telephone))
         tabedit1.setItem (row_count, 3, QTableWidgetItem (data.passport))
-        #TODO И как эту хрень замутить? Как изьять запиь даты из БД?
-        # textline1.setText (data.date_out.dateTime().toString('dd-MM-yyyy'))
-        # tabedit1.setItem (row_count, 4, QTableWidgetItem (data.date_out))
+        tabedit1.setItem (row_count, 4, QTableWidgetItem (data.date_out))
         tabedit1.setItem (row_count, 5, QTableWidgetItem (data.out_passport))
         tabedit1.setItem (row_count, 6, QTableWidgetItem (data.id_passport))
         tabedit1.setItem (row_count, 7, QTableWidgetItem (data.bad_human))
         row_count += 1
         tabedit1.insertRow(tabedit1.rowCount()) # Добавляем в таблицу пустую строчку
         textline1.clear()
+    tabedit1.resizeColumnToContents(0)
 
 
 def button_view():
     # Просмотр ВСЕЙ информации введенной в БД
     global row_count
-    row_count = 0
+    row_count = 0 # счетчик строк в таблице
     quere = Person.select()
     for data in quere: # Заполняем таблицу полученными данными
         tabedit1.setItem (row_count, 0, QTableWidgetItem (data.name))
         tabedit1.setItem (row_count, 1, QTableWidgetItem (data.adress))
         tabedit1.setItem (row_count, 2, QTableWidgetItem (data.telephone))
         tabedit1.setItem (row_count, 3, QTableWidgetItem (data.passport))
-        #TODO И как эту хрень замутить? Как изьять запиь даты из БД?
-        # textline1.setText (data.date_out.dateTime().toString('dd-MM-yyyy'))
-        # tabedit1.setItem (row_count, 4, QTableWidgetItem (data.date_out))
+        tabedit1.setItem (row_count, 4, QTableWidgetItem (data.date_out))
         tabedit1.setItem (row_count, 5, QTableWidgetItem (data.out_passport))
         tabedit1.setItem (row_count, 6, QTableWidgetItem (data.id_passport))
         tabedit1.setItem (row_count, 7, QTableWidgetItem (data.bad_human))
         row_count += 1
         tabedit1.insertRow(tabedit1.rowCount()) # Добавляем в таблицу пустую строчку
+    tabedit1.resizeColumnToContents(0)
 
 
 
@@ -165,6 +165,7 @@ label4.setGeometry(10,125,280,20)
 # Размещаем однострочное поле "Паспорт серия"
 textline4 = QtWidgets.QLineEdit(window)
 textline4.resize(250,20)
+textline4.setInputMask("99 99 999999; ")
 textline4.move(10,145)
 
 # Размещаем метку в позиции
@@ -194,6 +195,7 @@ label7.setGeometry(10,245,280,20)
 # Размещаем однострочное поле "Код подразделения"
 textline7 = QtWidgets.QLineEdit(window)
 textline7.resize(250,20)
+textline7.setInputMask("999-999; ")
 textline7.move(10,265)
 
 
