@@ -71,6 +71,8 @@ def button2_click(): # Запись введенных данных в БД
     tabedit1.insertRow(tabedit1.rowCount()) # Добавляем в таблицу пустую строчку
 
 def button3_click():
+    # Функция Удаления/Редактирования записей в БД
+
     pass
 
 def next_focus(): textline2.setFocus()
