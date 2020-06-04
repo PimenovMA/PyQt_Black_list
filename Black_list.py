@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
 """
@@ -32,7 +33,7 @@ class Person (peewee.Model):
 def button1_click():
     """Очистка Таблицы виджета, Текстовых полей, обнуление счетчика строк таблицы виджета"""
     global row_count
-    row_count = 0 # обнуляем счетчик строк таблыцы виджета
+    row_count = 0 # обнуляем счетчик строк таблицы виджета
     tabedit1.setRowCount(1) # сбрасываем строки к дефолту
     tabedit1.clearContents() # очистка данных в ячейках таблицы
     # Очищаем текстовые поля
@@ -70,7 +71,9 @@ def button2_click(): # Запись введенных данных в БД
     tabedit1.insertRow(tabedit1.rowCount()) # Добавляем в таблицу пустую строчку
 
 def button3_click():
-    textline1.setText(textline3.text().upper())
+    # Функция Удаления/Редактирования записей в БД
+
+    pass
 
 def next_focus(): textline2.setFocus()
 def next_focus1(): textline3.setFocus()
@@ -234,29 +237,27 @@ tabedit1.setSortingEnabled(True)
 
 # Размещаем кнопку "Поиск"
 button1 =QtWidgets.QPushButton ('Очистить', window)
-# устанавливаем размер кнопки
-button1.resize(90,30)
-# ставим ее в позицию
-button1.move(10,650)
+button1.resize(100,30) # устанавливаем размер кнопки
+button1.move(10,650) # ставим ее в позицию
 
 # Размещаем кнопку "Записать"
-button2 =QtWidgets.QPushButton ('Записать', window)
-button2.resize(90,30)
+button2 = QtWidgets.QPushButton ('Записать', window)
+button2.resize(100,30)
 button2.move(110,650)
 
 # Размещаем кнопку "Редактировать"
-button3 =QtWidgets.QPushButton ('Тестовая', window)
-button3.resize(90,30)
+button3 = QtWidgets.QPushButton ('Изменить в БД', window)
+button3.resize(100,30)
 button3.move(210,650)
 
 # Размещаем кнопку "Поиск"
 button_find1 = QtWidgets.QPushButton ('Поиск в БД', window)
-button_find1.resize(90,30)
+button_find1.resize(100,30)
 button_find1.move(310,650)
 
 # Размещаем кнопку "Посмотреть БД"
 button_view1 = QtWidgets.QPushButton ('Просмотр БД', window)
-button_view1.resize(90,30)
+button_view1.resize(100,30)
 button_view1.move(410,650)
 
 # КОНЕЦ БЛОКА ПОСТРОЕНИЯ ГРАФИЧЕСКОГО ИНТЕРФЕЙСА
