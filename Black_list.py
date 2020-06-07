@@ -10,6 +10,7 @@ import sys, peewee
 from datetime import date
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QTableWidgetItem
+from editanddeleteform import Editform
 
 row_count = 0 # Счетчик строчек таблицы (глобальная переменная)
 
@@ -72,9 +73,8 @@ def button2_click(): # Запись введенных данных в БД
 
 def button3_click():
     # Функция Удаления/Редактирования записей в БД
-    # проба запуска2
-
-    pass
+    editform = Editform
+    editform.show()
 
 def next_focus(): textline2.setFocus()
 def next_focus1(): textline3.setFocus()
