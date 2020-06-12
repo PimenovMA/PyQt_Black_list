@@ -8,9 +8,9 @@
 """
 import sys, peewee
 from datetime import date
-from PyQt5 import QtWidgets
+from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtWidgets import QTableWidgetItem
-from editanddeleteform import Editform
+from editanddeleteform import Window_one
 
 row_count = 0 # Счетчик строчек таблицы (глобальная переменная)
 
@@ -73,8 +73,13 @@ def button2_click(): # Запись введенных данных в БД
 
 def button3_click():
     # Функция Удаления/Редактирования записей в БД
-    editform = Editform
-    editform.show()
+    if __name__ == "__main__":
+        form1 = Window_one(window)
+        form1.setFixedSize(1000,700)
+        form1.setWindowModality(1)
+        form1.setAttribute(QtCore.Qt.WA_DeleteOnClose, True)
+        form1.setWindowTitle('Удаление записи')
+        form1.show()
 
 def next_focus(): textline2.setFocus()
 def next_focus1(): textline3.setFocus()
