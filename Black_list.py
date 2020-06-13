@@ -74,12 +74,12 @@ def button2_click(): # Запись введенных данных в БД
 def button3_click():
     # Функция Удаления/Редактирования записей в БД
     #if __name__ == "__main__":
-    form1 = Window_one(window)
-    form1.setFixedSize(1000,700)
-    form1.setWindowModality(1)
-    form1.setAttribute(QtCore.Qt.WA_DeleteOnClose, True)
-    form1.setWindowTitle('Удаление записи')
-    form1.show()
+    window.form1 = Window_one()
+    window.form1.setFixedSize(810,130)
+    window.form1.setWindowModality(1)
+    window.form1.setAttribute(QtCore.Qt.WA_DeleteOnClose, True)
+    window.form1.setWindowTitle('Удаление записи')
+    window.form1.show()
 
 def next_focus(): textline2.setFocus()
 def next_focus1(): textline3.setFocus()

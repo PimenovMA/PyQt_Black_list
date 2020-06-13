@@ -3,8 +3,8 @@ import sys
 
 
 class Window_one (QtWidgets.QWidget):
-    def __init__ (self, parent = None):
-        QtWidgets.QWidget.__init__(self, parent)
+    def __init__(self):
+        super(Window_one, self).__init__()
 
         self.label1 = QtWidgets.QLabel ('Кого ищем?', self)
         self.label1.setGeometry(10,10,70,20)
