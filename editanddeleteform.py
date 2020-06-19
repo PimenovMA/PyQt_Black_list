@@ -4,14 +4,14 @@ import sys, peewee
 
 database = peewee.SqliteDatabase ('blacklist.db')
 class Person (peewee.Model):
-    name = peewee.CharField(50) # ФИО клиента  textline1
-    adress = peewee.CharField(80) # адрес клиента textline2
-    telephone = peewee.CharField(15) # телефон клиента textline3
-    passport = peewee.CharField(13) # номер и серия паспорта textline4
-    date_out = peewee.DateField() # дата выдачи dateedit1
-    out_passport = peewee.CharField() # кем выдан textline6
-    id_passport = peewee.CharField() # код подразделения textline7
-    bad_human = peewee.CharField(50) # косяки клиента textedit1
+    name = peewee.CharField(50) # ФИО клиента
+    adress = peewee.CharField(80) # адрес клиента
+    telephone = peewee.CharField(15) # телефон клиента
+    passport = peewee.CharField(13) # номер и серия паспорта
+    date_out = peewee.DateField() # дата выдачи
+    out_passport = peewee.CharField() # кем выдан
+    id_passport = peewee.CharField() # код подразделения
+    bad_human = peewee.CharField(50) # косяки клиента
     date_add = peewee.DateField()
     class Meta:
         database = database
@@ -52,9 +52,8 @@ class Window_one (QtWidgets.QWidget):
         """
         Удаление записи из БД по ID
         """
-
-        #self.tablist.setItem(0, 1, QTableWidgetItem("Первая вставка"))
-        self.tablist.setItem(0, 1, QTableWidgetItem(self.foundtext_line.text().upper()))
+        self.foundtext_line.setText(self.tablist.currentItem().isSelected())
+        #self.tablist.setItem(0, 1, QTableWidgetItem(self.foundtext_line.text().upper()))
         self.tablist.insertRow(self.tablist.rowCount())
 
     def found_clicked(self):
