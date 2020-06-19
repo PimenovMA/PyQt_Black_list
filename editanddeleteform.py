@@ -1,3 +1,4 @@
+from PyQt5.QtWidgets import QTableWidgetItem
 from PyQt5 import QtWidgets, QtCore
 import sys, peewee
 
@@ -29,12 +30,12 @@ class Window_one (QtWidgets.QWidget):
         self.found_button = QtWidgets.QPushButton('Поиск ', self)
         self.found_button.resize(100,30)
         self.found_button.move(40,70)
-        self.found_button.clicked.connect(found_clicked)
+        self.found_button.clicked.connect(self.found_clicked)
 
         self.delete_button = QtWidgets.QPushButton('Удаление', self)
         self.delete_button.resize(100,30)
         self.delete_button.move(170,70)
-        self.found_button.clicked.connect(delete_clicked)
+        self.delete_button.clicked.connect(self.delete_clicked)
 
         self.tablist = QtWidgets.QTableWidget(self)
         self.tablist.setGeometry (300,10,500,100)
@@ -47,24 +48,39 @@ class Window_one (QtWidgets.QWidget):
         self.tablist.resizeColumnToContents(1)
         self.tablist.resizeColumnToContents(2)
 
+    def delete_clicked(self):
+        """
+        Удаление записи из БД по ID
+        """
 
+        #self.tablist.setItem(0, 1, QTableWidgetItem("Первая вставка"))
+        self.tablist.setItem(0, 1, QTableWidgetItem(self.foundtext_line.text().upper()))
+        self.tablist.insertRow(self.tablist.rowCount())
+
+    def found_clicked(self):
+        """
+        Поиск записи в БД и вывод списка найденного в таблицу с привязкой ID
+        """
+
+        self.tablist.clearContents()
+        row_count = 0
+        quere = Person.select().where((Person.name.contains('%' + self.foundtext_line.text().upper() + '%')))
+        for data in quere:  # Заполняем таблицу полученными данными
+            self.tablist.setItem(row_count, 0, QTableWidgetItem(str(data.id)))
+            self.tablist.setItem(row_count, 1, QTableWidgetItem(data.name))
+            self.tablist.setItem(row_count, 2, QTableWidgetItem(data.passport))
+            row_count += 1
+            self.tablist.insertRow(self.tablist.rowCount())  # Добавляем в таблицу пустую строчку
+        self.foundtext_line.clear()
+        self.tablist.resizeColumnToContents(0)
+        self.tablist.resizeColumnToContents(1)
+        self.tablist.resizeColumnToContents(2)
+
+"""
 def delete_clicked():
     form1.tablist.setItem (1, 1, form1.tablist.QTableWidgetItem(form1.foundtext_line.text().upper()))
+"""
 
-def found_clicked():
-    form1.tablist.clearContents()
-    row_count = 0
-    quere1 = Person.select().where((Person.name.contains('%'+form1.foundtext_line.text().upper()+'%')))
-    for data in quere1: # Заполняем таблицу полученными данными
-        #self.tablist.setItem (row_count, 0, self.QTableWidgetItem (self.data.id))
-        form1.tablist.setItem (row_count, 1, form1.tablist.QTableWidgetItem (data.name))
-        form1.tablist.setItem (row_count, 2, form1.tablist.QTableWidgetItem (data.passport))
-        row_count += 1
-        form1.tablist.insertRow(form1.tablist.rowCount()) # Добавляем в таблицу пустую строчку
-    form1.foundtext_line.clear()
-    form1.tablist.resizeColumnToContents(0)
-    form1.tablist.resizeColumnToContents(1)
-    form1.tablist.resizeColumnToContents(2)
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
