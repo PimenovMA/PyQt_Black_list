@@ -76,11 +76,6 @@ class Window_one (QtWidgets.QWidget):
         self.tablist.resizeColumnToContents(1)
         self.tablist.resizeColumnToContents(2)
 
-"""
-def delete_clicked():
-    form1.tablist.setItem (1, 1, form1.tablist.QTableWidgetItem(form1.foundtext_line.text().upper()))
-"""
-
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
@@ -89,6 +84,5 @@ if __name__ == "__main__":
     #form1.setWindowModality(1)
     form1.setAttribute(QtCore.Qt.WA_DeleteOnClose, True)
     form1.setWindowTitle('Удаление записи')
-    form1.foundtext_line.setText('ПИМЕНОВ')
     form1.show()
     sys.exit (app.exec_())
