@@ -51,7 +51,9 @@ class Window_one (QtWidgets.QWidget):
         """
         Удаление записи из БД по ID
         """
-        self.foundtext_line.setText(self.tablist.currentItem().isSelected())
+        self.foundtext_line.setText(self.tablist.item(self.tablist.currentRow(), 0).text())
+        # получение значения ячейки из таблицы
+        #self.foundtext_line.setText(self.tablist.item(self.tablist.currentRow(), self.tablist.currentColumn()).text())
         #self.tablist.setItem(0, 1, QTableWidgetItem(self.foundtext_line.text().upper()))
         self.tablist.insertRow(self.tablist.rowCount())
 
