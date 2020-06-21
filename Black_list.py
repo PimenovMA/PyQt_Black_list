@@ -106,6 +106,7 @@ def button_find():
         tabedit1.insertRow(tabedit1.rowCount()) # Добавляем в таблицу пустую строчку
         textline1.clear()
     tabedit1.resizeColumnToContents(0)
+    tabedit1.resizeColumnToContents(2)
 
 
 def button_view():
@@ -122,9 +123,10 @@ def button_view():
         tabedit1.setItem (row_count, 5, QTableWidgetItem (data.out_passport))
         tabedit1.setItem (row_count, 6, QTableWidgetItem (data.id_passport))
         tabedit1.setItem (row_count, 7, QTableWidgetItem (data.bad_human))
-        row_count += 1
+        row_count+=1
         tabedit1.insertRow(tabedit1.rowCount()) # Добавляем в таблицу пустую строчку
     tabedit1.resizeColumnToContents(0)
+    tabedit1.resizeColumnToContents(2)
 
 
 

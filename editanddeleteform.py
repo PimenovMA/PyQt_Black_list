@@ -42,8 +42,7 @@ class Window_one (QtWidgets.QWidget):
         self.tablist.setColumnCount(3)
         self.tablist.setRowCount(1)
         self.tablist.setSortingEnabled(True)
-        self.column_label = ['ID','Ф.И.О','Серия и N паспорта']
-        self.tablist.setHorizontalHeaderLabels(self.column_label)
+        self.tablist.setHorizontalHeaderLabels(['ID','Ф.И.О','Серия и N паспорта'])
         self.tablist.resizeColumnToContents(0)
         self.tablist.resizeColumnToContents(1)
         self.tablist.resizeColumnToContents(2)
@@ -62,13 +61,13 @@ class Window_one (QtWidgets.QWidget):
         """
 
         self.tablist.clearContents()
-        row_count = 0
+        row_count1 = 0 # Счетчик строк
         quere = Person.select().where((Person.name.contains('%' + self.foundtext_line.text().upper() + '%')))
         for data in quere:  # Заполняем таблицу полученными данными
-            self.tablist.setItem(row_count, 0, QTableWidgetItem(str(data.id)))
-            self.tablist.setItem(row_count, 1, QTableWidgetItem(data.name))
-            self.tablist.setItem(row_count, 2, QTableWidgetItem(data.passport))
-            row_count += 1
+            self.tablist.setItem(row_count1, 0, QTableWidgetItem(str(data.id)))
+            self.tablist.setItem(row_count1, 1, QTableWidgetItem(data.name))
+            self.tablist.setItem(row_count1, 2, QTableWidgetItem(data.passport))
+            row_count1 += 1
             self.tablist.insertRow(self.tablist.rowCount())  # Добавляем в таблицу пустую строчку
         self.foundtext_line.clear()
         self.tablist.resizeColumnToContents(0)
