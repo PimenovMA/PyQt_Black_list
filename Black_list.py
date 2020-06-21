@@ -235,7 +235,7 @@ tabedit1.setHorizontalHeaderLabels(["Ф.И.О.",
                                     "Претензии"])
 # задаем количество строк
 tabedit1.setRowCount(1)
-tabedit1.setVerticalHeaderLabels(['1','2','3','4','5'])
+#tabedit1.setVerticalHeaderLabels(['1','2','3','4','5'])
 # разрешаем сортировку
 tabedit1.setSortingEnabled(True)
 
@@ -248,22 +248,22 @@ button1.move(10,650) # ставим ее в позицию
 # Размещаем кнопку "Записать"
 button2 = QtWidgets.QPushButton ('Записать', window)
 button2.resize(100,30)
-button2.move(110,650)
+button2.move(120,650)
 
 # Размещаем кнопку "Редактировать"
 button3 = QtWidgets.QPushButton ('Изменить в БД', window)
 button3.resize(100,30)
-button3.move(210,650)
+button3.move(230,650)
 
 # Размещаем кнопку "Поиск"
 button_find1 = QtWidgets.QPushButton ('Поиск в БД', window)
 button_find1.resize(100,30)
-button_find1.move(310,650)
+button_find1.move(340,650)
 
 # Размещаем кнопку "Посмотреть БД"
 button_view1 = QtWidgets.QPushButton ('Просмотр БД', window)
 button_view1.resize(100,30)
-button_view1.move(410,650)
+button_view1.move(450,650)
 
 # КОНЕЦ БЛОКА ПОСТРОЕНИЯ ГРАФИЧЕСКОГО ИНТЕРФЕЙСА
 
