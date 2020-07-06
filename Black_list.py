@@ -25,7 +25,7 @@ class Person (peewee.Model):
     date_out = peewee.DateField() # дата выдачи dateedit1
     out_passport = peewee.CharField() # кем выдан textline6
     id_passport = peewee.CharField() # код подразделения textline7
-    bad_human = peewee.CharField(50) # косяки клиента textedit1
+    bad_human = peewee.CharField() # косяки клиента textedit1
     date_add = peewee.DateField()
     class Meta:
         database = database
