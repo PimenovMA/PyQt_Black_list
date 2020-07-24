@@ -89,3 +89,4 @@ if __name__ == "__main__":
     form1.setWindowTitle('Удаление записи')
     form1.show()
     sys.exit (app.exec_())
+# проверка гитхаба. код не изменен.
