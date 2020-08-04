@@ -43,7 +43,7 @@ class Window_one (QtWidgets.QWidget):
         self.delete_button.clicked.connect(self.delete_clicked)
 
         self.tablist = QtWidgets.QTableWidget(self)
-        self.tablist.setGeometry(300, 10, 500, 100)
+        self.tablist.setGeometry(300, 10, 500, 180)
         self.tablist.setColumnCount(3)
         self.tablist.setRowCount(1)
         self.tablist.setSortingEnabled(True)
@@ -57,6 +57,8 @@ class Window_one (QtWidgets.QWidget):
         Удаление записи из БД по ID
         """
         self.foundtext_line.setText(self.tablist.item(self.tablist.currentRow(), 0).text())
+        self.id_index = int(self.tablist.item(self.tablist.currentRow(), 0).text())
+        quere = Person.delete().where(Person.id == self.id_index).execute()
         # получение значения ячейки из таблицы
         self.tablist.insertRow(self.tablist.rowCount())
         self.delete_button.setEnabled(False)
@@ -85,7 +87,7 @@ class Window_one (QtWidgets.QWidget):
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     form1 = Window_one()
-    form1.setFixedSize(810, 130)
+    form1.setFixedSize(810, 200)
     # form1.setWindowModality(1)
     form1.setAttribute(QtCore.Qt.WA_DeleteOnClose, True)
     form1.setWindowTitle('Удаление записи')

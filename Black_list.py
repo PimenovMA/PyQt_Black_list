@@ -87,7 +87,7 @@ def button2_click():   # Запись введенных данных в БД
 def button3_click():
     # Функция Удаления/Редактирования записей в БД
     window.form1 = Window_one()
-    window.form1.setFixedSize(810, 130)
+    window.form1.setFixedSize(810, 200)
     # window.form1.setWindowModality(1)
     window.form1.setAttribute(QtCore.Qt.WA_DeleteOnClose, True)
     window.form1.setWindowTitle('Удаление записи')
@@ -272,8 +272,8 @@ button2.resize(100, 30)
 button2.move(120, 650)
 button2.setEnabled(False)
 
-# Размещаем кнопку "Редактировать"
-button3 = QtWidgets.QPushButton('Изменить в БД', window)
+# Размещаем кнопку "Удалить из БД"
+button3 = QtWidgets.QPushButton('Удалить из БД', window)
 button3.resize(100, 30)
 button3.move(230, 650)
 
